@@ -229,3 +229,18 @@ a {
     width: calc(16% - 20px) !important;
   }
 }
+@media
+ only screen and (hover: none) and (pointer: coarse) and (orientation:portrait) {
+  .feed-box, .stats-box {
+    width: 99% !important;
+    margin: 0 !important;
+    margin-bottom: 12px !important;
+  }
+}
+
+@media
+ only screen and (hover: none) and (pointer: coarse) and (orientation:landscape) {
+  .feed-box, .stats-box {
+    width: calc(50% - 20px) !important;
+  }
+}
