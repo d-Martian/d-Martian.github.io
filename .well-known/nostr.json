@@ -1,0 +1,11 @@
+{
+  "names": {
+    "dMartian": "5bb551d3759eeaeabfc7e5d10ffd4dbf798fb97ab099b7f06f4587efe3d8ab6d"
+  },
+  "relays": {
+    "5bb551d3759eeaeabfc7e5d10ffd4dbf798fb97ab099b7f06f4587efe3d8ab6d": [
+      "wss://xmr.usenostr.org",
+      "wss://nostr.portemonero.com"
+    ]
+  }
+}
