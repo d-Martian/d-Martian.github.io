@@ -1,0 +1,231 @@
+@font-face {
+  font-family: 'Asap Condensed';
+  src: url(Oswald-VariableFont_wght.ttf);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: 'Asap Condensed', sans-serif;
+  font-size: 18px;
+  background: #161616;
+  color: #e2e2e2;
+  padding: 10px;
+  padding-bottom: 40px;
+}
+.stats-box {
+  display: inline-block;
+  vertical-align: top;
+  background: transparent;
+  border-radius: 8px;
+  width: calc(25% - 20px);
+  padding: 16px;
+  margin: 0px;
+  margin-bottom: 12px;
+  margin-right: 8px;
+}
+.orange, .orange a, .orange span, .orange li, .orange p {
+  color: #F26822 !important;
+}
+.feed-box {
+  display: inline-block;
+  vertical-align: top;
+  background: #262626;
+  border-radius: 8px;
+  width: calc(25% - 20px);
+  min-height: 250px;
+  padding: 16px;
+  margin: 0px;
+  margin-bottom: 12px;
+  margin-right: 8px;
+}
+.feed-box li {
+  border-bottom: 2px solid #313131 !important;
+}
+#main {
+  display: block;
+  vertical-align: top;
+  max-width: min(99vw, 2400px);
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0 auto;
+}
+#main {
+  line-height: 130%;
+}
+img {
+  max-width: 95%;
+  height: auto;
+}
+h1, h2, h3, h4, h5, a {
+  color: #F26822;
+}
+h1, h2, h3 {
+  text-align: left;
+  color: #F26822;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 15px auto;
+  padding: 0px 0px 0px 0px;
+  background-color: none;
+  width: auto;
+  display: block;
+  border: 0px;
+}
+h2 {
+  font-size: 24px;
+  font-weight: 500;
+}
+h3 {
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 300;
+  margin-top: 0;
+}
+a {
+  text-decoration: none !important;
+}
+#nav a:hover, li a:hover {
+  text-decoration: underline !important;
+}
+.heading-arrow {
+  float: right;
+  margin-right: 10px;
+  font-weight: 800;
+  margin-top: -2px;
+}
+hr {
+  border: 1px dashed #F26822;
+  margin: 20px auto;
+}
+ul {
+  margin: 0;
+}
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+ul > li {
+  text-indent: 0px;
+}
+ul li {
+  margin-bottom: 8px;
+}
+ul li a {
+  text-decoration: none;
+}
+ul li a:hover {
+  text-decoration: underline;
+}
+#nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: #161616;
+  background-image: url(monero_bar2.png);
+  background-size: auto 60px;
+  background-position: left center;
+}
+#nav ul {
+  text-align: right;
+}
+#nav ul li {
+  margin-bottom: 8px;
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+#nav ul li a {
+  color: #F26822 !important;
+}
+#nav h1 {
+  float: left;
+  font-size: 24px;
+  margin: 0;
+}
+a {
+  color: #969696;
+}
+.listing-icon, .listing-title, .listing-arrow {
+  display:inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.listing-icon, .listing-arrow {
+  width:40px;
+}
+.listing-arrow {
+  text-align: right;
+}
+.listing-title {
+  width:calc(100% - 10px);
+}
+.listing-title, li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #969696;
+}
+.widget {
+  margin-bottom: -15px !important;
+}
+.small, a.small {
+  font-size: 14px !important;
+}
+.loading-bg {
+  background-image: url(monero_loader2.gif);
+  background-size: 50% auto;
+  background-position: center calc(25% + 30px);
+  background-repeat: no-repeat;
+}
+@media only screen and (max-width:799px) {
+  #main {
+    max-width: 99vw !important;
+    display: block !important;
+    float: none !important;
+    margin: 0 !important;
+    position: static !important;
+    padding: 0 !important;
+  }
+  .feed-box, .stats-box {
+    width: 99% !important;
+    margin: 0 !important;
+    margin-bottom: 12px !important;
+  }
+  #nav {
+    width: 99%;
+    height: 60px;
+  }
+  #nav li {
+    display: none !important;
+  }
+  h1, h2, h3, h4 {
+    text-align: left !important;
+  }
+}
+@media only screen and (min-width:800px) and (max-width:1199px) {
+  #nav {
+    width: 99%;
+    height: 60px;
+  }
+  #nav li {
+    display: none !important;
+  }
+  .feed-box, .stats-box {
+    width: calc(50% - 20px) !important;
+  }
+}
+@media only screen and (min-width:1200px) and (max-width:1799px) {
+  .feed-box, .stats-box {
+    width: calc(25% - 20px) !important;
+  }
+}
+@media only screen and (min-width:1800px) {
+  .feed-box, .stats-box {
+    width: calc(16% - 20px) !important;
+  }
+}

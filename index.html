@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	  <meta charset="UTF-8">
+	  <link rel="shortcut icon" href="monero_logo2_small.png">
+	  <title>The Monero Dance</title>
+	  <link rel='stylesheet' href='style.css'>
+	  <meta name="robots" content="index, follow">
+          <meta name="description" content="The Monero Dance displays all Monero news in one place, including price, merchants, articles, fundraising, community updates, software and resources.">
+          <meta itemprop="image" content="monero_logo2_small.png">
+          <meta property="og:title" content="The Monero Dance"> 
+          <meta property="og:type" content="website">
+          <meta property="og:url" content="https://themonero.dance">
+          <meta property="og:image" content="monero_logo2_small.png">
+          <meta name="twitter:card" content="summary">
+	</head>
+	<body>
+	  <div id="nav">
+	    <h1>MoneroDance</h1>
+	    <ul>
+	      <li><a href="#price">1 XMR = <span id="header_monero_usd_price"></span></a></li>
+	      <li><a href="#overview">Overview</a></li>
+	      <li><a href="#news">News</a></li>
+	      <li><a href="#fundraising">Fundraising</a></li>
+	      <li><a href="#community">Community</a></li>
+	      <li><a href="#marketplaces">Marketplaces</a></li>
+	      <li><a href="#merchants">Merchants</a></li>
+	      <li><a href="#resources">Resources</a></li>
+	    </ul>
+	  </div>
+	  <div id="main">
+	    <h2 id="overview">› Overview</h2>
+	    <div class="stats-box orange">
+	      <a href="https://moneroj.net/pricelin/">
+	        <h3 id="price"><span>Price</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <div class="widget">
+	        <iframe src="https://www.monero.how/widget" style="width:210px;
+  height:130px;" allowTransparency="true" border="0" hideFocus="true" marginwidth="0"
+  marginheight="0" hspace="0" vspace="0" frameBorder="no"></iframe>
+	      </div>
+	      <ul>
+	      <li>
+	        <b>LocalMonero Price:</b><br>
+	        <a href="https://localmonero.co" class="small">
+	          1 XMR = 
+	          <span id="box_monero_usd_price"></span>
+	          · <span id="box_monero_btc_price"></span>
+	        </a>
+	      </li>
+	    </ul>
+	    </div>
+	    <div class="stats-box orange">
+	      <a href="https://xmrchain.net">
+	        <h3 id="blockchain"><span>Blockchain</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul>
+	        <li><b>Version:</b> <span id="stats_version"></span></li>
+	        <li><b>Block height:</b> <span id="stats_block_height"></span></li>
+	        <li><b>Hash rate:</b> <span id="stats_hash_rate"></span></li>
+	        <li><b>Fee per byte:</b> <span id="stats_fee"></span></li>
+	        <li><b>Emission:</b> <span id="stats_emission"></span></li>
+	        <li><b>Monthly TXs:</b> <span id="stats_monthly_txs"></span></li>
+	      </ul>
+	    </div>
+	    <div class="stats-box orange">
+	      <a href="https://moneroj.net/merchants/">
+	        <h3 id="merchant-stats"><span>Merchant Listings</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul>
+	        <li><b>AcceptedHere:</b> <a href="https://acceptedhere.io"><span id="accepted_here_count"></span></a></li>
+	        <li><b>Monerica:</b> <a href="https://monerica.com"><span id="monerica_count"></span></a></li>
+	        <li><b>MoneroMarket.io:</b> <a href="https://moneromarket.io"><span id="monero_market_count"></span></a></li>
+	        <li><b>Bitejo:</b> <a href="https://bitejo.com"><span id="bitejo_count"></span></a></li>
+	      </ul>
+	    </div>
+	    <div class="stats-box orange">
+	      <a href="https://monero.observer/tag/calendar/">
+	        <h3 id="events"><span>Events</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="events_calendar">
+	      </ul>
+	    </div>
+	    <h2 id="news">› News</h2>
+	    <div id="monero_observer_news_box" class="feed-box">
+	      <a href="https://monero.observer">
+	        <h3><span>Monero Observer</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_observer_news">
+	      </ul>
+	    </div>
+	    <div id="revuo_monero_box" class="feed-box">
+	      <a href="https://revuo-xmr.com">
+	        <h3><span>Revuo Monero</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="revuo_monero">
+	      </ul>
+	    </div>
+	    <div id="monerochan_news_box" class="feed-box loading-bg">
+	      <a href="https://monerochan.news">
+	        <h3><span>Monerochan News</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monerochan_news">
+	      </ul>
+	    </div>
+	    <div id="monero_talk_box" class="feed-box loading-bg">
+	      <a href="https://monerotalk.live">
+	        <h3><span>Monero Talk</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_talk">
+	      </ul>
+	    </div>
+	    <div id="monero_moon_box" class="feed-box loading-bg">
+	      <a href="https://themoneromoon.com">
+	        <h3><span>Monero Moon</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_moon">
+	      </ul>
+	    </div>
+	    <div id="monero_standard_box" class="feed-box loading-bg">
+	      <a href="https://localmonero.co/the-monero-standard/">
+	        <h3><span>Monero Standard</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_standard">
+	      </ul>
+	    </div>
+	    <div id="monero_research_box" class="feed-box loading-bg">
+	      <a href="https://moneroresearch.info/">
+	        <h3><span>Monero Research</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_research">
+	      </ul>
+	    </div>
+	    <h2 id="fundraising">› Fundraising</h2>
+	    <div id="ccs_box" class="feed-box loading-bg">
+	      <a href="https://ccs.getmonero.org">
+	        <h3><span>CCS</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="ccs">
+	      </ul>
+	    </div>
+	    <div id="monero_bounties_box" class="feed-box loading-bg">
+	      <a href="https://bounties.monero.social">
+	        <h3><span>Bounties</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_bounties">
+	      </ul>
+	    </div>
+	    <div id="fundraiser_tools" class="feed-box">
+	      <h3><span>Fundraiser Tools</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="fundraiser_tools">
+	        <li><a href="https://github.com/plowsof/xmr-wishlist-aaS">Wishlist</a></li>
+	        <li><a href="https://monerofund.org/">MAGIC Grants</a></li>
+	        <li><a href="https://btcpayserver.org">BTCPayServer</a></li>
+	        <li><a href="https://monerodevs.org/">MoneroDevs</a></li>
+	      </ul>
+	    </div>
+	    <h2 id="community">› Community</h2>
+	    <div id="reddit_monero_box" class="feed-box">
+	      <a href="https://reddit.com/r/monero">
+	        <h3><span>/r/Monero</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="reddit_monero">
+	      </ul>
+	    </div>
+	    <div id="twitter_monero_box" class="feed-box">
+	      <a href="https://twitter.com/monero">
+	        <h3><span>@Monero</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="twitter_monero">
+	      </ul>
+	    </div>
+	    <div id="monerochan_forum_box" class="feed-box">
+	      <a href="https://forum.monerochan.news">
+	        <h3><span>Monerochan Forum</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monerochan_forum">
+	      </ul>
+	    </div>
+	    <div id="monero_matrix_box" class="feed-box">
+	      <h3><span>Matrix</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="monero_matrix">
+	        <li><a href="https://matrix.to/#/#monero:monero.social">#monero:monero.social</a></li>
+	        <li><a href="https://matrix.to/#/#monero-dev:monero.social">#monero-dev:monero.social</a></li>
+	        <li><a href="https://matrix.to/#/#monero-community:monero.social">#monero-community:monero.social</a></li>
+	      </ul>
+	    </div>
+	    <div id="monero_telegram" class="feed-box">
+	      <h3><span>Telegram</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="monero_telegram">
+	        <li><a href="https://t.me/monerotopia">t.me/Monerotopia</a></li>
+	        <li><a href="https://t.me/localmonero">t.me/LocalMonero</a></li>
+	        <li><a href="https://t.me/moneromarket">t.me/MoneroMarket</a></li>
+	      </ul>
+	    </div>
+	    <h2 id="marketplaces">› Marketplaces</h2>
+	    <div id="monero_market_io_box" class="feed-box">
+	      <a href="https://moneromarket.io">
+	        <h3><span>MoneroMarket.io</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monero_market_io">
+	      </ul>
+	    </div>
+	    <div id="reddit_monero_market_box" class="feed-box">
+	      <a href="https://reddit.com/r/moneromarket">
+	        <h3><span>/r/MoneroMarket</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="reddit_monero_market">
+	      </ul>
+	    </div>
+	    <div id="telegram_monero_market_box" class="feed-box loading-bg">
+	      <a href="https://t.me/moneromarket">
+	        <h3><span>t.me/MoneroMarket</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="telegram_monero_market">
+	      </ul>
+	    </div>
+	    <div id="bitejo_box" class="feed-box loading-bg">
+	      <a href="https://bitejo.com">
+	        <h3><span>Bitejo</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="bitejo">
+	      </ul>
+	    </div>
+	    <h2 id="merchants">› Merchants</h2>
+	    <div id="monerica_box" class="feed-box">
+	      <a href="https://monerica.com">
+	        <h3><span>Monerica</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="monerica">
+	      </ul>
+	    </div>
+	    <div id="accepted_here_box" class="feed-box">
+	      <a href="https://acceptedhere.io">
+	        <h3><span>AcceptedHere</span> <span class="heading-arrow">›</span></h3>
+	      </a>
+	      <ul id="accepted_here">
+	      </ul>
+	    </div>
+	    <div id="merchant_lists_box" class="feed-box">
+	      <h3><span>Gift Cards & Proxies</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="merchant_lists">
+	        <li><a href="https://coincards.com">CoinCards</a></li>
+	        <li><a href="https://cakepay.com">CakePay</a></li>
+	        <li><a href="https://sovereignstack.tools/rerouter/">Sovereign Stack Rerouter</a></li>
+	        <li><a href="https://proxysto.re">ProxyStore</a></li>
+	      </ul>
+	    </div>
+	    <h2 id="resources">› Resources</h2>
+	    <div id="websites_box" class="feed-box">
+	      <h3><span>Websites</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="websites">
+	        <li><a href="https://getmonero.org">Official Website</a></li>
+	        <li><a href="https://monero.how">Monero.how</a></li>
+	        <li><a href="https://localmonero.co/knowledge">LocalMonero Knowledgebase</a></li>
+	        <li><a href="https://anarkio.codeberg.page/monero">Introduction to Monero</a></li>
+	        <li><a href="https://moneromeans.money">Monero Means Money</a></li>
+	        <li><a href="https://monerochan.cash">Monerochan Cash</a></li>
+	      </ul>
+	    </div>
+	    <div id="exchanges_box" class="feed-box">
+	      <h3><span>Exchanges</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="exchanges">
+	        <li><a href="https://localmonero.co">LocalMonero</a></li>
+	        <li><a href="https://bisq.network">Bisq</a></li>
+	        <li><a href="https://coinatmradar.com">CoinATMRadar</a></li>
+	        <li><a href="https://trocador.app">Trocador</a></li>
+	        <li><a href="https://kycnot.me">KYCNotMe</a></li>
+	      </ul>
+	    </div>
+	    <div id="wallets_box" class="feed-box">
+	      <h3><span>Wallets</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="wallets">
+	        <li><a href="https://getmonero.org">GUI / CLI Wallet</a></li>
+	        <li><a href="https://monero.com">Cake Wallet / Monero.com</a></li>
+	        <li><a href="https://monerujo.app">Monerujo</a></li>
+	        <li><a href="https://featherwallet.org">Feather Wallet</a></li>
+	      </ul>
+	    </div>
+	    <div id="tools_box" class="feed-box">
+	      <h3><span>Tools</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="tools">
+	        <li><a href="https://p2pool.io">P2Pool Mining</a></li>
+	        <li><a href="https://xmrchain.net">XMRChain</a></li>
+	        <li><a href="https://monerointegrations.com">Monero Integrations</a></li>
+	        <li><a href="https://github.com/plowsof/xmr-wishlist-aaS">Wishlist</a></li>
+	        <li><a href="https://github.com/spirobel/monero-discourse-subscriptions">Monero Patreon</a></li>
+	      </ul>
+	    </div>
+	    <div id="books_box" class="feed-box">
+	      <h3><span>Books</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="books">
+	        <li><a href="https://masteringmonero.com/">Mastering Monero</a></li>
+	        <li><a href="https://web.getmonero.org/library/Zero-to-Monero-2-0-0.pdf">Zero to Monero</a></li>
+	        <li><a href="https://monerostandard.com/">The Monero Standard</a></li>
+	        <li><a href="https://whycryptocurrencies.com/">Why Cryptocurrencies</a></li>
+	        <li><a href="https://hackyourself.io/product/cryptocurrencies-hack-your-way-to-a-better-life/">Cryptocurrencies – Hack your way to a better life</a></li>
+	      </ul>
+	    </div>
+	    <div id="directories_box" class="feed-box">
+	      <h3><span>Directories</span> <span class="heading-arrow">›</span></h3>
+	      <ul id="directories">
+	        <li><a href="https://monerica.com">Monerica</a></li>
+	        <li><a href="https://www.monero.observer/resources/">Monero Observer</a></li>
+	        <li><a href="http://moneroar4fiojlkzkvwgt25rp6vifswcpwaxbzlhfkdenczbhc4luqad.onion/">Monero Onions</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <script src='jquery.min.js'></script>
+          <script src='feeds.js'></script>
+	  <script src='xml2json.js'></script>
+	</body>
+</html>
