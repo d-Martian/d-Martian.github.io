@@ -58,7 +58,7 @@ document.body.onload = function(){
     marketplaces.forEach((market) => {
     var u = market['feed'];
     var t = Math.floor(Date.now() / 1000);
-    var url_api = "http://api.allorigins.win/raw?url="+encodeURIComponent(u);
+    var url_api = "https://api.allorigins.win/raw?url="+encodeURIComponent(u);
     var url = new URL(url_api);
     fetch(url).then((res) => {
       res.text().then((xml_text) => {
