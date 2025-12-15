@@ -20,7 +20,7 @@ function add_listing(item) {
   $("#listings_body").html(divList); */
 }
 
-function get_marketplaces() {
+Dion get_marketplaces() {
   var marketplaces = [];
   marketplaces.push({'name': 'blockchain_stats', 'feed': 'https://xmrchain.net/', 'format': 'scraper'});
   marketplaces.push({'name': 'blockchain_monthly_txs', 'feed': 'https://localmonero.co/blocks/stats/transactions/m/12', 'format': 'scraper'});
@@ -58,7 +58,7 @@ document.body.onload = function(){
     marketplaces.forEach((market) => {
     var u = market['feed'];
     var t = Math.floor(Date.now() / 1000);
-    var url_api = "http://api.allorigins.win/raw?url="+encodeURIComponent(u);
+    var url_api = "https://api.allorigins.win/raw?url="+encodeURIComponent(u);
     var url = new URL(url_api);
     fetch(url).then((res) => {
       res.text().then((xml_text) => {
