@@ -20,7 +20,7 @@ function add_listing(item) {
   $("#listings_body").html(divList); */
 }
 
-Dion get_marketplaces() {
+function get_marketplaces() {
   var marketplaces = [];
   marketplaces.push({'name': 'blockchain_stats', 'feed': 'https://xmrchain.net/', 'format': 'scraper'});
   marketplaces.push({'name': 'blockchain_monthly_txs', 'feed': 'https://localmonero.co/blocks/stats/transactions/m/12', 'format': 'scraper'});
@@ -28,7 +28,7 @@ Dion get_marketplaces() {
   marketplaces.push({'name': 'price_in_btc', 'feed': 'https://agoradesk.com/api/v1/moneroaverage/BTC', 'format': 'api'});
   marketplaces.push({'name': 'events_calendar', 'feed': 'https://monero.observer/feed-calendar.xml', 'format': 'rss'});
   marketplaces.push({'name': 'monero_observer_news', 'feed': 'https://monero.observer/feed-mini.xml', 'format': 'rss'});
-  marketplaces.push({'name': 'revuo_monero', 'feed': 'https://revuo-xmr.com/atom.xml', 'format': 'atom'});
+  marketplaces.push({'name': 'revuo_monero', 'feed': 'https://revuo-xmr.com/atom.xml', 'format': 'rss'});
   marketplaces.push({'name': 'monero_talk', 'feed': 'https://feeds.fireside.fm/monerotalk/rss', 'format': 'rss'});
   marketplaces.push({'name': 'monero_research', 'feed': 'https://moneroresearch.info/index.php?action=rss_RSS_CORE&method=rss20', 'format': 'rss'});
   marketplaces.push({'name': 'monero_moon', 'feed': 'https://www.themoneromoon.com/feed', 'format': 'rss'});
@@ -37,10 +37,10 @@ Dion get_marketplaces() {
   marketplaces.push({'name': 'ccs', 'feed': 'https://ccs.getmonero.org/funding-required/', 'format': 'scraper'});
   marketplaces.push({'name': 'monerochan_news', 'feed': 'https://monerochan.news', 'format': 'scraper'});
   marketplaces.push({'name': 'monerochan_forum', 'feed': 'https://forum.monerochan.news/latest/', 'format': 'scraper'});
-  marketplaces.push({'name': 'bitejo', 'feed': 'https://bitejo.com/rss', 'format': 'rss'});
-  marketplaces.push({'name': 'count_bitejo', 'feed': 'https://bitejo.com', 'format': 'scraper'});
-  marketplaces.push({'name': 'monero_market_io', 'feed': 'https://moneromarket.io', 'format': 'scraper'});
-  marketplaces.push({'name': 'count_monero_market_io', 'feed': 'https://moneromarket.io', 'format': 'scraper'});
+  // marketplaces.push({'name': 'bitejo', 'feed': 'https://bitejo.com/rss', 'format': 'rss'});
+  // marketplaces.push({'name': 'count_bitejo', 'feed': 'https://bitejo.com', 'format': 'scraper'});
+  // marketplaces.push({'name': 'monero_market_io', 'feed': 'https://moneromarket.io', 'format': 'scraper'});
+  // marketplaces.push({'name': 'count_monero_market_io', 'feed': 'https://moneromarket.io', 'format': 'scraper'});
   marketplaces.push({'name': 'accepted_here', 'feed': 'https://acceptedhere.io/catalog/company/?currency=xmr&', 'format': 'scraper'});
   marketplaces.push({'name': 'count_accepted_here', 'feed': 'https://acceptedhere.io/catalog/currency/xmr/', 'format': 'scraper'});
   marketplaces.push({'name': 'monerica', 'feed': 'https://monerica.com', 'format': 'scraper'});
@@ -58,10 +58,18 @@ document.body.onload = function(){
     marketplaces.forEach((market) => {
     var u = market['feed'];
     var t = Math.floor(Date.now() / 1000);
-    var url_api = "https://api.allorigins.win/raw?url="+encodeURIComponent(u);
+    // Use codetabs proxy
+    var url_api = "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u);
     var url = new URL(url_api);
     fetch(url).then((res) => {
+      if (!res.ok) {
+        console.warn('Network response was not ok for ' + market['name'], res);
+        return; // Stop processing if request failed
+      }
       res.text().then((xml_text) => {
+        // Guard against empty responses
+        if (!xml_text) return;
+
         var listings = [];
         if(market['format'] == 'scraper') {
           var parser = new DOMParser();
@@ -106,20 +114,7 @@ document.body.onload = function(){
               add_listing(item);
             });
           } else if(market['name'] == 'monero_market_io') {
-            var ccs_links = $(scraper_doc).find('a[href*="listing"]');
-            ccs_links.each(function() {
-              var title = $(this).find('.desc').text();
-              var timestamp = (new Date().getTime()/1000);
-              var link = 'https://moneromarket.io'+$(this).attr('href');
-              var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
-              if(title) {
-                listings.push(listing_details);
-              }
-            });
-            var listings = listings.slice(0, 10);
-            listings.forEach((item) => {
-              add_listing(item);
-            });
+            // Disabled
           } else if(market['name'] == 'accepted_here') {
             var ccs_links = $(scraper_doc).find('.col-lg-7 a[href*="company"]');
             ccs_links.each(function() {
@@ -137,7 +132,10 @@ document.body.onload = function(){
             });
           } else if(market['name'] == 'monerica') {
             var ccs_links = $(scraper_doc).find('li a');
-            var ccs_links = ccs_links.slice(14, 24);
+            // Check if slice is valid
+            if (ccs_links.length > 24) {
+               ccs_links = ccs_links.slice(14, 24);
+            }
             ccs_links.each(function() {
               var title = $(this).text();
               var timestamp = (new Date().getTime()/1000);
@@ -150,12 +148,7 @@ document.body.onload = function(){
               add_listing(item);
             });
           } else if(market['name'] == 'count_monero_market_io') {
-            var market_stats = $(scraper_doc).find('#categories a span');
-            var market_total = 0;
-            market_stats.each(function() {
-              market_total = market_total + parseInt($(this).text().replace(/\D/g,''));
-              $('#monero_market_count').text(market_total);
-            });
+             // Disabled
           } else if(market['name'] == 'count_monerica') {
             var market_stats = $(scraper_doc).find('li a');
             var market_total = 0;
@@ -167,125 +160,170 @@ document.body.onload = function(){
             var market_total = $(scraper_doc).find('.currency-stats span:nth-child(2)').text().replace(/\D/g,'');
             $('#accepted_here_count').text(market_total);
           } else if(market['name'] == 'count_bitejo') {
-            var market_total = $(scraper_doc).find('a[href*="search/currency/monero"]').find('span').text().replace(/\D/g,'');
-            $('#bitejo_count').text(market_total);
+             // Disabled
           } else if(market['name'] == 'blockchain_monthly_txs') {
             var market_total = $(scraper_doc).find('.data-table tr:nth-child(1) td:nth-child(2)').text().replace(/\D/g,'');
-            $('#stats_monthly_txs').text(market_total);
+            if (market_total) {
+                $('#stats_monthly_txs').text(market_total);
+            }
           } else if(market['name'] == 'blockchain_stats') {
             var search_text = $(scraper_doc).text().split('age [h:m:s]')[0].replace(/[\n\r]/g, ' ');
-            console.log(search_text);
-            var regex_version = new RegExp("GUI (.*?) ", "g");
-            var stats_version = regex_version.exec(search_text)[1];
-            $('#stats_version').text(stats_version);
-            var regex_block_height = new RegExp("as of (.*?) block", "g");
-            var stats_block_height = regex_block_height.exec(search_text)[1];
-            $('#stats_block_height').text(stats_block_height);
-            var regex_hash_rate = new RegExp("Hash rate: (.*?) ", "g");
-            var stats_hash_rate = regex_hash_rate.exec(search_text)[1]+' GH/s';
-            $('#stats_hash_rate').text(stats_hash_rate);
-            var regex_fee = new RegExp("Fee per byte: (.*?) ", "g");
-            var stats_fee = regex_fee.exec(search_text)[1]+' XMR';
-            $('#stats_fee').text(stats_fee);
-            var regex_emission = new RegExp("Monero emission (.*?) is (.*?) ", "g");
-            var stats_emission = regex_emission.exec(search_text)[2]+' XMR';
-            $('#stats_emission').text(stats_emission);
+            console.log("Blockchain stats text:", search_text); // Keep logging for debug
+
+            try {
+                var regex_version = new RegExp("GUI (.*?) ", "g");
+                var match_version = regex_version.exec(search_text);
+                if (match_version) $('#stats_version').text(match_version[1]);
+
+                var regex_block_height = new RegExp("as of (.*?) block", "g");
+                var match_height = regex_block_height.exec(search_text);
+                if (match_height) $('#stats_block_height').text(match_height[1]);
+
+                // Improved regex for hash rate: match up to 'GH/s' or just take the number
+                var regex_hash_rate = new RegExp("Hash rate: (.*?)(GH/s| )", "g");
+                var match_hash = regex_hash_rate.exec(search_text);
+                if (match_hash) $('#stats_hash_rate').text(match_hash[1].trim() + ' GH/s');
+
+                var regex_fee = new RegExp("Fee per byte: (.*?) ", "g");
+                var match_fee = regex_fee.exec(search_text);
+                if (match_fee) $('#stats_fee').text(match_fee[1] + ' XMR');
+
+                var regex_emission = new RegExp("Monero emission (.*?) is (.*?) ", "g");
+                var match_emission = regex_emission.exec(search_text);
+                if (match_emission) $('#stats_emission').text(match_emission[2] + ' XMR');
+            } catch (e) {
+                console.error("Error parsing blockchain stats:", e);
+            }
           }
         } else if(market['format'] == 'api') {
-          if(market['name'] == 'monero_bounties') {
-            var json_text = JSON.parse(xml_text);
-            json_text.forEach((item) => {
-              var title = item['title'];
-              var timestamp = (new Date().getTime()/1000);
-              var link = 'https://bounties.monero.social/posts/'+item['id']+'/'+item['slug'];
-              var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
-              listings.push(listing_details);
-            });
-            var listings = listings.slice(0, 10);
-            listings.forEach((item) => {
-              add_listing(item);
-            });
-          } else if(market['name'] == 'price_in_usd') {
-            var price_in_usd = JSON.parse(xml_text)['data']['USD']['avg_24h'];
-            $('#header_monero_usd_price').text('$'+price_in_usd);
-            $('#box_monero_usd_price').text('$'+price_in_usd);
-          } else if(market['name'] == 'price_in_btc') {
-            var price_in_btc = JSON.parse(xml_text)['data']['BTC']['avg_24h'];
-            $('#box_monero_btc_price').text(price_in_btc+' BTC');
+          try {
+              if(market['name'] == 'monero_bounties') {
+                var json_text = JSON.parse(xml_text);
+                json_text.forEach((item) => {
+                  var title = item['title'];
+                  var timestamp = (new Date().getTime()/1000);
+                  var link = 'https://bounties.monero.social/posts/'+item['id']+'/'+item['slug'];
+                  var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
+                  listings.push(listing_details);
+                });
+                var listings = listings.slice(0, 10);
+                listings.forEach((item) => {
+                  add_listing(item);
+                });
+              } else if(market['name'] == 'price_in_usd') {
+                var parsed = JSON.parse(xml_text);
+                if (parsed && parsed['data'] && parsed['data']['USD']) {
+                    var price_in_usd = parsed['data']['USD']['avg_24h'];
+                    $('#header_monero_usd_price').text('$'+price_in_usd);
+                    $('#box_monero_usd_price').text('$'+price_in_usd);
+                }
+              } else if(market['name'] == 'price_in_btc') {
+                var parsed = JSON.parse(xml_text);
+                if (parsed && parsed['data'] && parsed['data']['BTC']) {
+                    var price_in_btc = parsed['data']['BTC']['avg_24h'];
+                    $('#box_monero_btc_price').text(price_in_btc+' BTC');
+                }
+              }
+          } catch (e) {
+              console.error("Error parsing API JSON for " + market['name'], e);
           }
         } else {
           var doc = DOMPARSER(xml_text, "text/xml");
           var x2js = new X2JS();
           var json_text = x2js.xml2json(doc);
+
+          if (!json_text) {
+              console.warn("XML parsing failed or returned null for " + market['name']);
+              return;
+          }
+
           if(market['format'] == 'atom') {
-            json_text['feed']['entry'].forEach((item) => {
-              var title = item['title'];
-              var timestamp = (new Date(item['published']).getTime()/1000);
-              var link = item['link']['_href'];
-              var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
-              listings.push(listing_details);
-            });
-            var listings = listings.slice(0, 10);
-            listings.forEach((item) => {
-              add_listing(item);
-            });
+            if (json_text['feed'] && json_text['feed']['entry']) {
+                // Handle single entry case (x2js converts single child to object, list to array)
+                var entries = json_text['feed']['entry'];
+                if (!Array.isArray(entries)) entries = [entries];
+
+                entries.forEach((item) => {
+                  var title = item['title'];
+                    // start handling edge case for title type="html"
+                    if(typeof title === 'object' && title !== null) {
+                         title = title.toString();
+                    }
+                  // end handling
+                  var timestamp = (new Date(item['published']).getTime()/1000);
+                  var link = item['link']['_href'];
+                  var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
+                  listings.push(listing_details);
+                });
+                var listings = listings.slice(0, 10);
+                listings.forEach((item) => {
+                  add_listing(item);
+                });
+            }
           } else if(market['format'] == 'rss') {
-            json_text['rss']['channel']['item'].forEach((item) => {
-              var rss_push_listing = true;
-              var title = item['title'];
-              if(market['name'] == 'monero_observer_market') {
-                if(title.match(/WTB|WTS|LTH|AFH/i) == null) {
-                  return;
-                }
-              }
-              if(market['name'] == 'events_calendar') {
-                var title_parts = title.split(' scheduled for ');
-                var title_text = title_parts[0];
-                var title_date_parts = title_parts[1].split(' ');
-                var title_date = new Date(title_date_parts[1]+' '+title_date_parts[0]+' '+title_date_parts[2]);
-                var now = new Date();
-                if((title_date.getTime() + 86400000) < now.getTime()) {
-                  return;
-                } else {
-                  var title_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                  var title = title_months[title_date.getMonth()]+' '+title_date.getDate()+': '+title_text;
-                }
-              }
-              if(market['name'] == 'telegram_monero_market') {
-                var hashtags_search = ['#selling', '#buying', '#trade', '#service'];
-                var description_lowercase = item['title']+' '+item['description'];
-                var description_lowercase = description_lowercase.toLowerCase();
-                if(hashtags_search.some(valid_hashtag => description_lowercase.includes(valid_hashtag))) {
+            if (json_text['rss'] && json_text['rss']['channel'] && json_text['rss']['channel']['item']) {
+                var items = json_text['rss']['channel']['item'];
+                if (!Array.isArray(items)) items = [items];
+
+                items.forEach((item) => {
                   var rss_push_listing = true;
-                } else {
-                  var rss_push_listing = false;
-                }
-                var clean_description = item['description'].replace(/<[^>]*>?/gm, '').replace(/\#\w\w+\s?/gi, '');
-                var title = clean_description.split(' ').slice(0, 10).join(' ')+'…';
-              }
-              if(market['name'] == 'monero_research') {
-                if(listings.some(listing => listing.link == item['link'])) {
-                  var rss_push_listing = false;
-                } else {
-                  var rss_push_listing = true;
-                }
-              }
-              var timestamp = (new Date(item['pubDate']).getTime()/1000);
-              var link = item['link'];
-              var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
-              if(rss_push_listing) {
-                listings.push(listing_details);
-              }
-            });
-            var listings = listings.slice(0, 10);
-            listings.forEach((item) => {
-              if(item['title']) {
-                add_listing(item);
-              }
-            });
+                  var title = item['title'];
+                  if(market['name'] == 'monero_observer_market') {
+                    if(title.match(/WTB|WTS|LTH|AFH/i) == null) {
+                      return;
+                    }
+                  }
+                  if(market['name'] == 'events_calendar') {
+                    var title_parts = title.split(' scheduled for ');
+                    var title_text = title_parts[0];
+                    var title_date_parts = title_parts[1].split(' ');
+                    var title_date = new Date(title_date_parts[1]+' '+title_date_parts[0]+' '+title_date_parts[2]);
+                    var now = new Date();
+                    if((title_date.getTime() + 86400000) < now.getTime()) {
+                      return;
+                    } else {
+                      var title_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                      var title = title_months[title_date.getMonth()]+' '+title_date.getDate()+': '+title_text;
+                    }
+                  }
+                  if(market['name'] == 'telegram_monero_market') {
+                    var hashtags_search = ['#selling', '#buying', '#trade', '#service'];
+                    var description_lowercase = item['title']+' '+item['description'];
+                    var description_lowercase = description_lowercase.toLowerCase();
+                    if(hashtags_search.some(valid_hashtag => description_lowercase.includes(valid_hashtag))) {
+                      var rss_push_listing = true;
+                    } else {
+                      var rss_push_listing = false;
+                    }
+                    var clean_description = item['description'].replace(/<[^>]*>?/gm, '').replace(/\#\w\w+\s?/gi, '');
+                    var title = clean_description.split(' ').slice(0, 10).join(' ')+'…';
+                  }
+                  if(market['name'] == 'monero_research') {
+                    if(listings.some(listing => listing.link == item['link'])) {
+                      var rss_push_listing = false;
+                    } else {
+                      var rss_push_listing = true;
+                    }
+                  }
+                  var timestamp = (new Date(item['pubDate']).getTime()/1000);
+                  var link = item['link'];
+                  var listing_details = {"title": title, "timestamp": timestamp, "link": link, "market": market['name']};
+                  if(rss_push_listing) {
+                    listings.push(listing_details);
+                  }
+                });
+                var listings = listings.slice(0, 10);
+                listings.forEach((item) => {
+                  if(item['title']) {
+                    add_listing(item);
+                  }
+                });
+            }
           }
         }
       });
+    }).catch(error => {
+        console.error('Fetch error for ' + market['name'] + ':', error);
     });
   });
 }
