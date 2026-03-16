@@ -20,7 +20,7 @@ function add_listing(item) {
   $("#listings_body").html(divList); */
 }
 
-Dion get_marketplaces() {
+function get_marketplaces() {
   var marketplaces = [];
   marketplaces.push({'name': 'blockchain_stats', 'feed': 'https://xmrchain.net/', 'format': 'scraper'});
   marketplaces.push({'name': 'blockchain_monthly_txs', 'feed': 'https://localmonero.co/blocks/stats/transactions/m/12', 'format': 'scraper'});
